@@ -85,7 +85,7 @@ int main() {
         std::cout << "  - " << item->getName() << "\n";
     }
 
-    // Filter by category type
+
     auto foodItems = groceryList->getItemsByCategory(foodCategory);
     std::cout << "Articoli nella categoria 'Alimentari' (" << foodItems.size() << "):\n";
     for (const auto &item: foodItems) {

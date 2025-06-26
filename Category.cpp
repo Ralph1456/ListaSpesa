@@ -27,7 +27,7 @@ bool Category::operator!=(const Category& other) const {
     return !(*this == other);
 }
 
-// FoodCategory implementation
+
 FoodCategory::FoodCategory(const std::string& name, const std::string& description)
         : Category(name, description) {}
 

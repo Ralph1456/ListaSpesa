@@ -25,7 +25,7 @@ public:
     bool operator!=(const Category& other) const;
 };
 
-// Concrete category classes
+
 class FoodCategory : public Category {
 public:
     FoodCategory(const std::string& name, const std::string& description = "");

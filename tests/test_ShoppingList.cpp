@@ -75,7 +75,7 @@ TEST_F(ShoppingListItemTest, CategoryAssignment) {
     EXPECT_EQ(item->getCategory(), nullptr);
 }
 
-// Test specifici per ShoppingList
+
 class ShoppingListTest : public ::testing::Test {
 protected:
     void SetUp() override {

@@ -5,7 +5,7 @@
 class ItemTest : public ::testing::Test {
 protected:
     void SetUp() override {
-       
+
         category = std::make_shared<FoodCategory>("Frutta e Verdura", "Frutta");
         item = std::make_unique<Item>("Mele", 3, category, "Bio");
     }
