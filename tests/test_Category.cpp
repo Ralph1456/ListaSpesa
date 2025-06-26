@@ -4,38 +4,55 @@
 class CategoryTest : public ::testing::Test {
 protected:
     void SetUp() override {
-        category = std::make_unique<Category>(CategoryType::FRUITS_VEGETABLES, "Frutta", "Categoria per frutta fresca");
+        foodCategory = std::make_unique<FoodCategory>("Frutta", "Categoria per frutta fresca");
+        householdCategory = std::make_unique<HouseholdCategory>("Pulizie", "Prodotti per la pulizia");
     }
 
-    std::unique_ptr<Category> category;
+    std::unique_ptr<FoodCategory> foodCategory;
+    std::unique_ptr<HouseholdCategory> householdCategory;
 };
 
-TEST_F(CategoryTest, Constructor) {
-EXPECT_EQ(category->getType(), CategoryType::FRUITS_VEGETABLES);
-EXPECT_EQ(category->getName(), "Frutta");
-EXPECT_EQ(category->getDescription(), "Categoria per frutta fresca");
+TEST_F(CategoryTest, FoodCategoryConstructor) {
+    EXPECT_EQ(foodCategory->getName(), "Frutta");
+    EXPECT_EQ(foodCategory->getDescription(), "Categoria per frutta fresca");
+    EXPECT_EQ(foodCategory->getType(), "Food");
+}
+
+TEST_F(CategoryTest, HouseholdCategoryConstructor) {
+    EXPECT_EQ(householdCategory->getName(), "Pulizie");
+    EXPECT_EQ(householdCategory->getDescription(), "Prodotti per la pulizia");
+    EXPECT_EQ(householdCategory->getType(), "Household");
 }
 
 TEST_F(CategoryTest, SettersAndGetters) {
-category->setName("Verdura");
-category->setDescription("Categoria per verdure fresche");
+    foodCategory->setName("Verdura");
+    foodCategory->setDescription("Categoria per verdure fresche");
 
-EXPECT_EQ(category->getName(), "Verdura");
-EXPECT_EQ(category->getDescription(), "Categoria per verdure fresche");
-EXPECT_EQ(category->getType(), CategoryType::FRUITS_VEGETABLES); // Type shouldn't change
+    EXPECT_EQ(foodCategory->getName(), "Verdura");
+    EXPECT_EQ(foodCategory->getDescription(), "Categoria per verdure fresche");
+    EXPECT_EQ(foodCategory->getType(), "Food"); // Type shouldn't change
 }
 
 TEST_F(CategoryTest, EqualityOperators) {
-Category other(CategoryType::FRUITS_VEGETABLES, "Frutta", "Descrizione diversa");
-Category different(CategoryType::DAIRY, "Latticini", "Categoria latticini");
+    FoodCategory other("Frutta", "Descrizione diversa");
+    HouseholdCategory different("Pulizie", "Categoria pulizie");
 
-EXPECT_TRUE(*category == other);
-EXPECT_FALSE(*category != other);
-EXPECT_FALSE(*category == different);
-EXPECT_TRUE(*category != different);
+    EXPECT_TRUE(*foodCategory == other);
+    EXPECT_FALSE(*foodCategory != other);
+    EXPECT_FALSE(*foodCategory == different);
+    EXPECT_TRUE(*foodCategory != different);
 }
 
 TEST_F(CategoryTest, EmptyDescription) {
-Category emptyDesc(CategoryType::DAIRY, "Latticini");
-EXPECT_EQ(emptyDesc.getDescription(), "");
+    FoodCategory emptyDesc("Latticini");
+    EXPECT_EQ(emptyDesc.getDescription(), "");
+    EXPECT_EQ(emptyDesc.getType(), "Food");
+}
+
+TEST_F(CategoryTest, Polymorphism) {
+    std::unique_ptr<Category> baseFood = std::make_unique<FoodCategory>("Test Food");
+    std::unique_ptr<Category> baseHousehold = std::make_unique<HouseholdCategory>("Test Household");
+
+    EXPECT_EQ(baseFood->getType(), "Food");
+    EXPECT_EQ(baseHousehold->getType(), "Household");
 }

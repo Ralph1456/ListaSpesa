@@ -1,11 +1,8 @@
 #include "Category.h"
 
-Category::Category(CategoryType type, const std::string& name, const std::string& description)
-        : type(type), name(name), description(description) {}
-
-CategoryType Category::getType() const {
-    return type;
-}
+// Base Category implementation
+Category::Category(const std::string& name, const std::string& description)
+        : name(name), description(description) {}
 
 std::string Category::getName() const {
     return name;
@@ -24,9 +21,25 @@ void Category::setDescription(const std::string& description) {
 }
 
 bool Category::operator==(const Category& other) const {
-    return type == other.type && name == other.name;
+    return name == other.name && getType() == other.getType();
 }
 
 bool Category::operator!=(const Category& other) const {
     return !(*this == other);
+}
+
+// FoodCategory implementation
+FoodCategory::FoodCategory(const std::string& name, const std::string& description)
+        : Category(name, description) {}
+
+std::string FoodCategory::getType() const {
+    return "Food";
+}
+
+// HouseholdCategory implementation
+HouseholdCategory::HouseholdCategory(const std::string& name, const std::string& description)
+        : Category(name, description) {}
+
+std::string HouseholdCategory::getType() const {
+    return "Household";
 }

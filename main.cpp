@@ -21,21 +21,21 @@ void printList(const std::shared_ptr<ShoppingList>& list) {
                   << " (Qt: " << item->getQuantity() << ")"
                   << (item->isPurchased() ? " [ACQUISTATO]" : " [DA ACQUISTARE]");
         if (item->getCategory()) {
-            std::cout << " - Categoria: " << item->getCategory()->getName();
+            std::cout << " - Categoria: " << item->getCategory()->getName()
+                      << " (" << item->getCategory()->getType() << ")";
         }
         std::cout << "\n";
     }
 }
 
 int main() {
-    printSeparator("Demo Shopping List App");
+    printSeparator("Demo Shopping List App - New Category System");
 
+    // Create categories using inheritance
+    auto foodCategory = std::make_shared<FoodCategory>("Alimentari", "Prodotti alimentari");
+    auto householdCategory = std::make_shared<HouseholdCategory>("Casa", "Prodotti per la casa");
 
-    auto categoryFruits = std::make_shared<Category>(CategoryType::FRUITS_VEGETABLES, "Frutta e Verdura");
-    auto categoryDairy = std::make_shared<Category>(CategoryType::DAIRY, "Latticini");
-    auto categoryMeat = std::make_shared<Category>(CategoryType::MEAT_FISH, "Carne e Pesce");
-
-
+    // Create users
     auto user1 = std::make_shared<User>("Mario", "mario@email.com");
     auto user2 = std::make_shared<User>("Anna", "anna@email.com");
 
@@ -45,26 +45,24 @@ int main() {
     auto groceryList = user1->createList("Spesa Settimanale");
 
 
-    auto apple = std::make_shared<Item>("Mele", 2, categoryFruits, "Bio preferibilmente");
-    auto milk = std::make_shared<Item>("Latte", 1, categoryDairy);
-    auto chicken = std::make_shared<Item>("Pollo", 1, categoryMeat, "Petto di pollo");
-    auto tomatoes = std::make_shared<Item>("Pomodori", 1, categoryFruits);
+    auto apple = std::make_shared<Item>("Mele", 2, foodCategory, "Bio preferibilmente");
+    auto milk = std::make_shared<Item>("Latte", 1, foodCategory);
+    auto chicken = std::make_shared<Item>("Pollo", 1, foodCategory, "Petto di pollo");
+    auto detergent = std::make_shared<Item>("Detersivo", 1, householdCategory, "Per i piatti");
 
     groceryList->addItem(apple);
     groceryList->addItem(milk);
     groceryList->addItem(chicken);
-    groceryList->addItem(tomatoes);
+    groceryList->addItem(detergent);
 
     printList(groceryList);
 
     printSeparator("Condivisione Lista");
 
-
     user1->shareList(groceryList, user2);
     std::cout << "Lista condivisa con " << user2->getUsername() << "\n";
 
     printSeparator("Acquisti - Observer Pattern in Azione");
-
 
     std::cout << "Acquistando alcuni articoli...\n";
     groceryList->markItemPurchased(apple->getId(), true);
@@ -74,7 +72,6 @@ int main() {
     printList(groceryList);
 
     printSeparator("Filtri e Ricerche");
-
 
     auto purchasedItems = groceryList->getPurchasedItems();
     std::cout << "Articoli acquistati (" << purchasedItems.size() << "):\n";
@@ -88,22 +85,21 @@ int main() {
         std::cout << "  - " << item->getName() << "\n";
     }
 
-
-    auto fruitsItems = groceryList->getItemsByCategory(categoryFruits);
-    std::cout << "Articoli nella categoria 'Frutta e Verdura' (" << fruitsItems.size() << "):\n";
-    for (const auto &item: fruitsItems) {
+    // Filter by category type
+    auto foodItems = groceryList->getItemsByCategory(foodCategory);
+    std::cout << "Articoli nella categoria 'Alimentari' (" << foodItems.size() << "):\n";
+    for (const auto &item: foodItems) {
         std::cout << "  - " << item->getName() << "\n";
     }
 
     printSeparator("Creazione Seconda Lista");
 
-
     auto quickList = user2->createList("Spesa Veloce");
-    auto bread = std::make_shared<Item>("Pane", 1, nullptr, "Integrale");
-    auto water = std::make_shared<Item>("Acqua", 6);
+    auto bread = std::make_shared<Item>("Pane", 1, foodCategory, "Integrale");
+    auto soap = std::make_shared<Item>("Sapone", 1, householdCategory);
 
     quickList->addItem(bread);
-    quickList->addItem(water);
+    quickList->addItem(soap);
 
     printList(quickList);
 
@@ -119,7 +115,7 @@ int main() {
     std::cout << "  Liste condivise: " << user2->getSharedLists().size() << "\n";
     std::cout << "  Totale liste: " << user2->getAllLists().size() << "\n";
 
-    printSeparator("Fine Demo");
+
 
     return 0;
 }

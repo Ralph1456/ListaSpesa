@@ -1,37 +1,41 @@
+
 #ifndef CATEGORY_H
 #define CATEGORY_H
 
 #include <string>
 
-enum class CategoryType {
-    FRUITS_VEGETABLES,
-    DAIRY,
-    MEAT_FISH,
-    BAKERY,
-    BEVERAGES,
-    HOUSEHOLD,
-    PERSONAL_CARE,
-    OTHER
-};
-
+// Base class for all categories
 class Category {
-private:
-    CategoryType type;
+protected:
     std::string name;
     std::string description;
 
 public:
-    Category(CategoryType type, const std::string& name, const std::string& description = "");
+    Category(const std::string& name, const std::string& description = "");
+    virtual ~Category() = default;
 
-    CategoryType getType() const;
-    std::string getName() const;
-    std::string getDescription() const;
+    virtual std::string getName() const;
+    virtual std::string getDescription() const;
+    virtual std::string getType() const = 0;
 
     void setName(const std::string& name);
     void setDescription(const std::string& description);
 
     bool operator==(const Category& other) const;
     bool operator!=(const Category& other) const;
+};
+
+// Concrete category classes
+class FoodCategory : public Category {
+public:
+    FoodCategory(const std::string& name, const std::string& description = "");
+    std::string getType() const override;
+};
+
+class HouseholdCategory : public Category {
+public:
+    HouseholdCategory(const std::string& name, const std::string& description = "");
+    std::string getType() const override;
 };
 
 #endif
