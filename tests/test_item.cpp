@@ -5,7 +5,7 @@
 class ItemTest : public ::testing::Test {
 protected:
     void SetUp() override {
-        // Usa FoodCategory invece di Category (che è astratta)
+       
         category = std::make_shared<FoodCategory>("Frutta e Verdura", "Frutta");
         item = std::make_unique<Item>("Mele", 3, category, "Bio");
     }
@@ -66,7 +66,7 @@ TEST_F(ItemTest, EqualityOperators) {
 }
 
 TEST_F(ItemTest, CategoryAssignment) {
-    // Usa HouseholdCategory invece di Category con enum
+
     auto newCategory = std::make_shared<HouseholdCategory>("Latticini", "Prodotti caseari");
     item->setCategory(newCategory);
     EXPECT_EQ(item->getCategory(), newCategory);

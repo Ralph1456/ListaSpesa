@@ -31,11 +31,11 @@ void printList(const std::shared_ptr<ShoppingList>& list) {
 int main() {
     printSeparator("Demo Shopping List App - New Category System");
 
-    // Create categories using inheritance
+
     auto foodCategory = std::make_shared<FoodCategory>("Alimentari", "Prodotti alimentari");
     auto householdCategory = std::make_shared<HouseholdCategory>("Casa", "Prodotti per la casa");
 
-    // Create users
+
     auto user1 = std::make_shared<User>("Mario", "mario@email.com");
     auto user2 = std::make_shared<User>("Anna", "anna@email.com");
 

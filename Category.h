@@ -4,7 +4,7 @@
 
 #include <string>
 
-// Base class for all categories
+
 class Category {
 protected:
     std::string name;
