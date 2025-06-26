@@ -1,6 +1,5 @@
 #include "Category.h"
 
-// Base Category implementation
 Category::Category(const std::string& name, const std::string& description)
         : name(name), description(description) {}
 
@@ -36,7 +35,7 @@ std::string FoodCategory::getType() const {
     return "Food";
 }
 
-// HouseholdCategory implementation
+
 HouseholdCategory::HouseholdCategory(const std::string& name, const std::string& description)
         : Category(name, description) {}
 
