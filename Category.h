@@ -18,8 +18,8 @@ public:
     virtual std::string getDescription() const;
     virtual std::string getType() const = 0;
 
-    void setName(const std::string& name);
-    void setDescription(const std::string& description);
+   virtual void setName(const std::string& name);
+    virtual void setDescription(const std::string& description);
 
     bool operator==(const Category& other) const;
     bool operator!=(const Category& other) const;
